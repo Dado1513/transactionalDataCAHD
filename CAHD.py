@@ -148,7 +148,7 @@ def CAHD(dataframe_bandizzato, items_sensibili, nome_item, grado_privacy, alfa=3
 
     # riempo il dizionario (hash_map) indicizzata con il numero della riga
     for t in transazioni_sensibili:
-        index_t = np.where(np.array(transazioni_sensibili_completa) == t)
+        index_t = np.where(np.array(transazioni_sensibili_completa) == t)[0]
         hash_transiction[t] = [item_sensibile_per_transazioni[i] for i in index_t]
 
     # indicizzata le righe delle transizioni contententi l'indice della lista item_sensibili dove è contenuto l'uno
