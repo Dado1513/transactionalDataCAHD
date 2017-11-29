@@ -45,7 +45,7 @@ def compute_band_matrix(original_dataset=None, dim_finale=1000, nome__file_item=
         lista_sensibili = df_square.columns[-num_sensibile:]
         # plot matrice sparsa iniziale
         # plt
-        ax1.spy(df_square, marker='.', markersize='0.6')
+        ax1.spy(df_square, marker='.', markersize='1')
         #ax1.show()
 
         # applicazione algoritmo RCM
@@ -63,7 +63,7 @@ def compute_band_matrix(original_dataset=None, dim_finale=1000, nome__file_item=
         # df bandizzato
         df_square_band = df_square.iloc[order][column_reordered]
         # plotto
-        ax2.spy(df_square_band, marker='.', markersize='0.6')
+        ax2.spy(df_square_band, marker='.', markersize='1')
         #ax2.show()
         plt.show()
         # banda dataframe inizale
@@ -130,7 +130,7 @@ def CAHD(dataframe_bandizzato, items_sensibili, nome_item, grado_privacy, alfa=3
         con gli items sensibili (vedi paper per teoria)
     """
     # calcolo histogram per i dati sensibili
-    hist = compute_hist(dataframe_bandizzato,items_sensibili)
+    hist = compute_hist(dataframe_bandizzato, items_sensibili)
     # lunghezza del dataframe
     remaining = len(dataframe_bandizzato)
     # gruppi anonimizzati
