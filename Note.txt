@@ -1,0 +1,7 @@
+Vari FIX
+1) fix che aggiunge la somma dell'ultimo gruppo
+2) fix che poteva aggiungere due transazioni sensibili in conflitto se nessuna delle due era quella che si stava analizzando (cioè faceva parte dei alfa_p transizioni)
+3) fix che diminuisce il grado di privacy se non si può raggingere manco all'inzio --> da testare
+4) Bisogna metterlo in classi et voila 
+5) se si vuola possiamo aggiungere la funzionalità di lavorare con dataframe non quadrati
+6) si può calcolare il KL_divergence
