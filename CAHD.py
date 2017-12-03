@@ -21,14 +21,14 @@ def compute_band_matrix(original_dataset=None, dim_finale=1000, nome__file_item=
         items = file.read().splitlines()
         # permuto righe e colonne del df inizale e prendo le prime :dim_finale
         np.random.seed(seed=13)
-        random_column = np.random.permutation(df.shape[1])[:dim_finale]
-        random_row = np.random.permutation(df.shape[0])[:dim_finale]
+        random_column = np.random.permutation(original_dataset.shape[1])[:dim_finale]
+        random_row = np.random.permutation(original_dataset.shape[0])[:dim_finale]
         # recupero gli item selezionati nel relativo ordine == colonne
         items_reordered = [items[i] for i in random_column]
         # df selezionato e square
 
         # eliminare le righe nulle a priori
-        df_square = df.iloc[random_row][random_column];
+        df_square = original_dataset.iloc[random_row][random_column];
         # eliminare solo se items sensibili nulli
 
         # selezioni gli utlimi num_sensibili come item sensibili
