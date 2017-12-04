@@ -1,31 +1,27 @@
 import pandas as pd
 import numpy as np
-from scipy.sparse.csgraph import reverse_cuthill_mckee
-from scipy.sparse import csr_matrix
-import matplotlib.pylab as plt
-import scipy.sparse as sps
-from random import randint
 import operator
+
 
 class AnonymizationCAHD:
 
     # DATA
-    dataframe_bandizzato = None # dataframe after RCM
-    items_sensibili = None # list all sensibile data
-    nome_item = None # dict index--> nome_item
-    grado_privacy = None # grado privacy richiesto
-    alfa = None # controllo le alfa * grado_privacy transizoni
-    hist = None # hist delle frequenze dei dati sensibili
-    transizioni_sensibili = None # id transizioni sensibii
-    transizioni_sensibili_all = None # tutte le transizioni mapping con ite sensibii
-    items_sensibili_per_tranzioni = None
+    dataframe_bandizzato = None  # dataframe after RCM
+    items_sensibili = None  # list all sensibile data
+    nome_item = None  # dict index--> nome_item
+    grado_privacy = None  # grado privacy richiesto
+    alfa = None  # controllo le alfa * grado_privacy transizoni
+    hist = None  # hist delle frequenze dei dati sensibili
+    transizioni_sensibili = None  # id transizioni sensibii
+    transizioni_sensibili_all = None  # tutte le transizioni mapping con sd
+    items_sensibili_per_tranzioni = None  # lista sd for transiction
 
     dict_group = None
     dataframe_anonimizzato = None
     lista_gruppi = None
     sd_gruppi = None
 
-    def __init__(self, dataframe=None, grado_privacy=4, alfa = 3):
+    def __init__(self, dataframe=None, grado_privacy=4, alfa=3):
         """
             Anonymization through CAHD algorithm , euristico and greedy
         """
@@ -37,16 +33,16 @@ class AnonymizationCAHD:
 
     def compute_hist(self):
         self.hist = dict(self.dataframe_bandizzato[self.items_sensibili].sum())
-        print(self.hist)
+        #print(self.hist)
 
-    def check_grado_privacy(self):
+    def check_grado_privacy(self, grado_privacy):
         """
-        compute se il grado della privacy può essere soddisfatto, se così non fosse
-        si diminuisce il grado della privacy per averne uno ottimale, oppure si può
-        decidere di modificare gli item sensibili
+        compute se il grado della privacy può essere soddisfatto, se così non
+        fosse si diminuisce il grado della privacy per averne uno ottimale,
+        oppure si può decidere di modificare gli item sensibili
         """
         for value in self.hist.values():
-            if value * self.grado_privacy >=len(self.dataframe_bandizzato)-1:
+            if value * grado_privacy >= len(self.dataframe_bandizzato) - 1:
                 return False
         return True
 
@@ -70,35 +66,34 @@ class AnonymizationCAHD:
         all_items = list(self.dataframe_bandizzato)
         QID_items = [x for x in all_items if x not in self.items_sensibili]
 
-        #lista riportante gli item in comune con transactionTarget
+        # lista riportante gli item in comune con transactionTarget
         distance = list()
         # remove list che hanno items_sensibili in comune
         # bisogna controllare che nella lista candidate non vi siano transizioni in conflitto con loro
 
-        #for id in index[0]:
+        # for id in index[0]:
 
         for row in candidate_list:
             list1 = self.dataframe_bandizzato.iloc[transaction_target][QID_items]
             list2 = self.dataframe_bandizzato.iloc[row][QID_items]
-            #da queste due liste, devo escludere le transazioni sensibili.
+            # da queste due liste, devo escludere le transazioni sensibili.
 
-            #num. elementi in comune di due liste
+            # num. elementi in comune di due liste
             distance.append(sum([x and y for x, y in zip(list1, list2)]))
 
-        #ottengo i p-1 indici della lista candidata con distanza maggiore
+        # ottengo i p-1 indici della lista candidata con distanza maggiore
         major_indexs = list()
         for i in range(0, self.grado_privacy-1):
             max_index,max_value = max(enumerate(distance), key=operator.itemgetter(1))
             major_indexs.append(max_index)
             distance[max_index] = -1
 
-        #seleziono gli indici delle righe del dataframe con maggior QIitems in comune
+        # seleziono gli indici delle righe del dataframe con maggior QIitems in comune
         best_rows = list()
         for i in major_indexs:
             best_rows.append(candidate_list[i])
 
         return best_rows
-
 
     def compute_candidate_list(self, indice_transizione_sensibile):
         alpha_p = self.alfa * self.grado_privacy
@@ -114,7 +109,8 @@ class AnonymizationCAHD:
                 if self.check_conflict(indice_transizione_sensibile, i):
                     k = k + 1
                 else:
-                    # controllo che nella lista non vi siano gia delle transizioni con quelli item sensibili
+                    # controllo che nella lista non vi siano gia delle
+                    # transizioni con quelli item sensibili
                     # se si non la posso inserire
                     conflitto_lista = False
                     for index in lc:
@@ -154,8 +150,7 @@ class AnonymizationCAHD:
         if len(lc) < self.grado_privacy:
             error = True
 
-        return lc,error
-
+        return lc, error
 
 
     def CAHD_algorithm(self):
@@ -163,12 +158,23 @@ class AnonymizationCAHD:
             algoritmo di anonimizzazion
         """
         self.compute_hist()
+        # nel caso che il grado di privacy non sia soddisfabile
         soddisfabile = False
-        while not soddisfabile and self.grado_privacy > 0:
-            soddisfabile = self.check_grado_privacy()
+        temp_privacy = self.grado_privacy
+        while not soddisfabile and temp_privacy > 0:
+            soddisfabile = self.check_grado_privacy(temp_privacy)
             if not soddisfabile:
-                self.grado_privacy -= 1
-        print("grado di privacy soddisfabile: ", self.grado_privacy)
+                temp_privacy -= 1
+
+        if temp_privacy == self.grado_privacy:
+            print("Grado di privacy soddisfabile")
+        else:
+            print("Grado di privacy soddisfabile: ", temp_privacy)
+            choose = input(
+                    "Cambiare il grado della privacy da %s a %s (y/N):"
+                    %(self.grado_privacy, temp_privacy))
+            if choose =="y":
+                self.grado_privay = temp_privacy
         # lunghezza del dataframe
         remaining = len(self.dataframe_bandizzato)
         # compute le transizioni sensibili
