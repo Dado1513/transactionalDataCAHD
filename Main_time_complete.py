@@ -12,7 +12,7 @@ if __name__ == "__main__":
     time_lista = list()
     print("")
     print("Read Dataset")
-    df = Dataframe.Dataframe('online_retail_transaction.csv')
+    df = Dataframe.Dataframe('Data/online_retail_transaction.csv')
 
     for grado_privacy in privacy:
         start_time = time.time()
@@ -20,7 +20,7 @@ if __name__ == "__main__":
         print("Calcolo la band matrix")
         df.compute_band_matrix(
             dim_finale=dim_finale,
-            nome_file_item="lista_items.txt",
+            nome_file_item="Data/lista_items.txt",
             num_sensibile=num_sensibile, plot = False)
 
         print("")
