@@ -16,6 +16,13 @@ Eseguire il comando
 python Main.py
 ```
 Ed seguire i comandi a schermo
+### RCM
+Il tool esegue prima l'algoritmo RCM reverse_cuthill_mckee, ottenendo:
+![band matrix](https://github.com/Dado1513/transactionalDataCAHD/blob/master/Image%20plot/rcm_1000_bms2.PNG)
+
+### I risulati vengono anonimizzati come segue
+
+![band matrix](https://github.com/Dado1513/transactionalDataCAHD/blob/master/Image%20plot/anonimizzazione_CAHD.PNG)
 
 ### Risultati Dataset BMS2
 Di seguito i risultati relativi al tempo di esecuzione di BMS2 (see KDD CUP 2000).
