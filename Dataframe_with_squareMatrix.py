@@ -85,6 +85,7 @@ class Dataframe:
             self.dataframe_bandizzato = df_square_band
             self.items_final = items_final
             self.lista_sensibili = lista_sensibili
+            
         elif original_dataset is not None and len(original_dataset) >= dim_finale:
             # devo essere sicuro di avere il numero di righe giusto
             # allora devo squadrarlo con la dimensione finale definita dall'utente
