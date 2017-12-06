@@ -18,7 +18,7 @@ python Main.py
 Ed seguire i comandi a schermo
 ### RCM
 Il tool esegue prima l'algoritmo RCM reverse_cuthill_mckee, ottenendo:
-![band matrix](https://github.com/Dado1513/transactionalDataCAHD/blob/master/Image%20plot/rcm_1000_bms2.PNG)
+![band matrix](https://github.com/Dado1513/transactionalDataCAHD/blob/master/Image%20plot/rcm_1000_bms2.png)
 
 ### I risulati vengono anonimizzati come segue
 
