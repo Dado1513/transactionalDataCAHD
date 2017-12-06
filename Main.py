@@ -11,16 +11,18 @@ if __name__ == "__main__":
     listaItem  = eval(input("Inserire il nome del file contenete gli items: "))
     # testing
     # nameFile = "Dataset Paper/dataBMS1_transiction.csv"
-    # listItem = "Dataset Paper/lista_items_BMS1.txt"
+    # listaItem = "Dataset Paper/lista_items_BMS1.txt"
+    # nameFile = "Dataset Paper/dataBMS2_transiction.csv"
+    # listaItem = "Dataset Paper/lista_items_BMS2.txt"
     print("")
     print("Read Dataset")
-    df = Dataframex.Dataframe(nameFile)
+    df = Dataframe.Dataframe(nameFile)
 
     print("")
     print("Calcolo la band matrix")
     df.compute_band_matrix(
         dim_finale=dim_finale,
-        nome_file_item=listItem,
+        nome_file_item=listaItem,
         num_sensibile=num_sensibile)
 
     print("")
