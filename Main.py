@@ -1,5 +1,6 @@
 import Dataframe
 import AnonymizationCAHD
+import time
 if __name__ == "__main__":
 
     dim_finale = eval(input("Dimensione del dataset: "))
@@ -8,7 +9,7 @@ if __name__ == "__main__":
     alpha = eval(input(
         "Inserire valore di alpha (p*alfa check, valore ottimale = 3): "))
     nameFile = eval(input("Insert name/path file: "))
-    listaItem  = eval(input("Inserire il nome del file contenete gli items: "))
+    listaItem = eval(input("Inserire il nome del file contenete gli items: "))
     # testing
     # nameFile = "Dataset Paper/dataBMS1_transiction.csv"
     # listaItem = "Dataset Paper/lista_items_BMS1.txt"
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     print("")
     print("Read Dataset")
     df = Dataframe.Dataframe(nameFile)
-
+    start_time = time.time()
     print("")
     print("Calcolo la band matrix")
     df.compute_band_matrix(
@@ -33,5 +34,8 @@ if __name__ == "__main__":
 
     print("Eseguo Anonimizzazione")
     cahd.CAHD_algorithm()
+    end_time = time.time() - start_time
+    print("Execution time for privacy %s is %s" %(grado_privacy, end_time))
+    print("")
     # con 1000,5,5,3 crea gruppi con 2 items_sensibili
-    print(cahd.sd_gruppi)
+    # print(cahd.sd_gruppi)

@@ -15,8 +15,8 @@ if __name__ == "__main__":
     # nameFile = eval(input("Insert name/path file: "))
     # listaItem  = eval(input("Inserire il nome del file contenete gli items: "))
     # testing
-    nameFile = "Dataset Paper/dataBMS1_transiction.csv"
-    listaItem = "Dataset Paper/lista_items_BMS1.txt"
+    nameFile = "Dataset Paper/dataBMS2_transiction.csv"
+    listaItem = "Dataset Paper/lista_items_BMS2.txt"
     # testing
     # nameFile = "Dataset Paper/dataBMS1_transiction.csv"
     # listaItem = "Dataset Paper/lista_items_BMS1.txt"
@@ -48,9 +48,13 @@ if __name__ == "__main__":
         # con 1000,5,5,3 crea gruppi con 2 items_sensibili
 
         #print(cahd.sd_gruppi)
-    #[127.13321161270142, 262.16547203063965, 574.3999593257904, 644.1780500411987, 1198.6934328079224, 1936.6988503932953]
+    # BMS1
+    # [127.13321161270142, 262.16547203063965, 574.3999593257904, 644.1780500411987, 1198.6934328079224, 1936.6988503932953]
+    # BMS2
+    # [6.369251489639282, 17.078197956085205, 23.92260766029358, 29.99243950843811, 73.00087451934814, 138.0216190814972]
     print(time_lista)
     plt.plot(privacy,time_lista,marker='o',linestyle='--',color='b')
     plt.xlabel("Privacy")
     plt.ylabel("Time (sec)")
-    plt.title("Execution Time   ")
+    plt.title("Execution Time (BMS2)  ")
+    plt.show()
