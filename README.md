@@ -17,7 +17,7 @@ python Main.py
 ```
 Ed seguire i comandi a schermo
 
-### Risultati Dataset DBMS2
+### Risultati Dataset BMS2
 Di seguito i risultati relativi al tempo di esecuzione di BMS2 (see KDD CUP 2000).
 http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php
 Sono stati troncate alle prime 10000 transazioni nella costruzione del datasets (L'originale era di circa 60000).
