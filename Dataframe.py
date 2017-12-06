@@ -21,7 +21,7 @@ class Dataframe:
         """
         self.dataframe = pd.read_csv(nome_file,header=None,index_col=None)
 
-    def compute_band_matrix(self,dim_finale = 1000, nome_file_item = None, num_sensibile = 1):
+    def compute_band_matrix(self,dim_finale = 1000, nome_file_item = None, num_sensibile = 1,plot = True):
         """
             Compute band_matrix , permutazione casuale di righe e colonne
             estrapola a caso item_sensibili
@@ -87,7 +87,8 @@ class Dataframe:
             # plotto
             ax2.spy(df_square_band, marker='.', markersize='1')
             #ax2.show()
-            plt.show()
+            if plot:
+                plt.show()
             # banda dataframe inizale
             [i, j] = np.where(df_square == 1)
             bw = max(i-j) + 1

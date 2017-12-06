@@ -44,18 +44,23 @@ class AnonymizationCAHD:
         for value in self.hist.values():
             if value * grado_privacy >= len(self.dataframe_bandizzato) - 1:
                 return False
+        value_sum = sum(self.hist.values())
+        #if value_sum * grado_privacy >= len(self.dataframe_bandizzato) :
+        #    return False
         return True
 
     def get_id_transazioni_sensibili(self):
         self.transazioni_sensibili = set(list(np.where(self.dataframe_bandizzato[self.items_sensibili] == 1)[0]))
         self.transizioni_sensibili_all = list(np.where(self.dataframe_bandizzato[self.items_sensibili] == 1)[0])
-        # item sensibili della transazione iesime
+        # item sensibili della transazione iesime c
         self.item_sensibile_per_transazioni = list(np.where(self.dataframe_bandizzato[self.items_sensibili] == 1)[1])
 
     def check_conflict(self, row_i, row_j):
         # se hanno un items sensibile in comune allora sono in conflitto
-        dati_sensibili_row_i = self.items_sensibili[np.where(self.dataframe_bandizzato.iloc[row_i][self.items_sensibili] == 1)]
-        dati_sensibili_row_j = self.items_sensibili[np.where(self.dataframe_bandizzato.iloc[row_j][self.items_sensibili] == 1)]
+        index_i = self.dataframe_bandizzato.index[row_i]
+        index_j = self.dataframe_bandizzato.index[row_j]
+        dati_sensibili_row_i = self.items_sensibili[np.where(self.dataframe_bandizzato.loc[index_i, self.items_sensibili] == 1)]
+        dati_sensibili_row_j = self.items_sensibili[np.where(self.dataframe_bandizzato.loc[index_j, self.items_sensibili] == 1)]
         # create set
         set_j = set(dati_sensibili_row_j)
         set_i = set(dati_sensibili_row_i)
@@ -84,7 +89,7 @@ class AnonymizationCAHD:
         # ottengo i p-1 indici della lista candidata con distanza maggiore
         major_indexs = list()
         for i in range(0, self.grado_privacy-1):
-            max_index,max_value = max(enumerate(distance), key=operator.itemgetter(1))
+            max_index, max_value = max(enumerate(distance), key=operator.itemgetter(1))
             major_indexs.append(max_index)
             distance[max_index] = -1
 
@@ -103,23 +108,24 @@ class AnonymizationCAHD:
         cond = max(indice_transizione_sensibile - alpha_p - k, -1)
         i = indice_transizione_sensibile - 1;
         while (i > cond):
-            if i not in self.transizioni_sensibili_all:
-                lc.append(i)
+            # questo non va bene crea gruppi con transazioni sensbili in comune
+            # i not in self.transizioni_sensibili_all:
+
+            if self.check_conflict(indice_transizione_sensibile, i):
+                k = k + 1
             else:
-                if self.check_conflict(indice_transizione_sensibile, i):
-                    k = k + 1
+                # controllo che nella lista non vi siano gia delle
+                # transizioni con quelli item sensibili
+                # se si non la posso inserire
+                conflitto_lista = False
+                for index in lc:
+                    if self.check_conflict(index, i):
+                        conflitto_lista = True
+                        break
+                if not conflitto_lista:
+                    lc.append(i)
                 else:
-                    # controllo che nella lista non vi siano gia delle
-                    # transizioni con quelli item sensibili
-                    # se si non la posso inserire
-                    conflitto_lista = False
-                    for index in lc:
-                        if self.check_conflict(index, i):
-                            conflitto_lista = True
-                    if not conflitto_lista:
-                        lc.append(i)
-                    else:
-                        k = k + 1
+                    k = k + 1
 
             cond = max(indice_transizione_sensibile - alpha_p - k, -1)
             i -= 1
@@ -129,22 +135,34 @@ class AnonymizationCAHD:
         cond = min(indice_transizione_sensibile + alpha_p + k, len(self.dataframe_bandizzato))
         i = indice_transizione_sensibile + 1
         while(i < cond):
-            if i not in self.transizioni_sensibili_all:
-                lc.append(i)
+            # i not in self.transizioni_sensibili_all:
+
+            if self.check_conflict(indice_transizione_sensibile, i):
+                k = k + 1
             else:
-                if self.check_conflict(indice_transizione_sensibile, i):
-                    k = k + 1
+                conflitto_lista = False
+                for index in lc:
+                    if self.check_conflict(index, i):
+                        conflitto_lista = True
+                        break
+                if not conflitto_lista:
+                    lc.append(i)
                 else:
-                    conflitto_lista = False
-                    for index in lc:
-                        if self.check_conflict(index, i):
-                            conflitto_lista = True
-                    if not conflitto_lista:
-                        lc.append(i)
-                    else:
-                        k = k + 1
+                    k = k + 1
             cond = min(indice_transizione_sensibile + alpha_p + k, len(self.dataframe_bandizzato))
             i += 1
+        # controllo se per caso rimangano item sensibili nella lista allora li rimuovo
+        to_remove = list()
+        for i in range(0,len(lc)):
+            for j in range(0,len(lc)):
+                if i!=j and self.check_conflict(lc[i],lc[j]):
+                    to_remove.append(lc[i])
+                    #print("conflitto")
+        to_remove = list(set(to_remove))
+        #print(to_remove)
+
+        for remove in to_remove:
+            lc.remove(remove)
 
         error = False
         if len(lc) < self.grado_privacy:
@@ -230,8 +248,9 @@ class AnonymizationCAHD:
             for i in id_sensitive_transaction:
                 transazioni_sensibili.append(self.dataframe_bandizzato.index.get_loc(i))
 
+
             #lista candidata LC
-            lc,errore = self.compute_candidate_list( t)
+            lc,errore = self.compute_candidate_list(t)
             # se posso creare il gruppo
             if not errore:
                 group = self.select_best_transactions(lc, t)
