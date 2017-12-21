@@ -38,4 +38,4 @@ if __name__ == "__main__":
     print("Execution time for privacy %s is %s" %(grado_privacy, end_time))
     print("")
     # con 1000,5,5,3 crea gruppi con 2 items_sensibili
-    # print(cahd.sd_gruppi)
+    print(cahd.sd_gruppi)
