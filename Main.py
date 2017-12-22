@@ -48,7 +48,11 @@ if __name__ == "__main__":
     # dict degli item dove la key sono relativi al dataframe bandizzato
 
     print(cahd.sd_gruppi)
-
+    # bisogna settare il numero di QID da tenere in consideraione
+    # r (quindi sono 2^r possibili combinazioni) di solito r = 4
+    # item sensibili sono definiti sopra
+    # p fissato vedi sopra con p e m variabile
+    # calcolare KLDivergence
     all_item_bandizzato = df.items_final
     columns_item_sensibili = df.lista_sensibili
     dataframe_bandizzato = df.dataframe_bandizzato
