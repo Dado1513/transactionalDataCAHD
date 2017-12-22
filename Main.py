@@ -1,20 +1,26 @@
 import Dataframe
 import AnonymizationCAHD
 import time
+import KLDivergence
+
 if __name__ == "__main__":
 
     dim_finale = eval(input("Dimensione del dataset: "))
+    dim_finale = 1000
     num_sensibile = eval(input("Numero di item sensibili da testare: "))
+    num_sensibile = 10
     grado_privacy = eval(input("Grado di privacy desiderato: "))
+    grado_privacy = 10
     alpha = eval(input(
         "Inserire valore di alpha (p*alfa check, valore ottimale = 3): "))
+    alpha = 3
     nameFile = eval(input("Insert name/path file: "))
     listaItem = eval(input("Inserire il nome del file contenete gli items: "))
     # testing
     # nameFile = "Dataset Paper/dataBMS1_transiction.csv"
     # listaItem = "Dataset Paper/lista_items_BMS1.txt"
-    # nameFile = "Dataset Paper/dataBMS2_transiction.csv"
-    # listaItem = "Dataset Paper/lista_items_BMS2.txt"
+    nameFile = "Dataset Paper/dataBMS2_transiction.csv"
+    listaItem = "Dataset Paper/lista_items_BMS2.txt"
     print("")
     print("Read Dataset")
     df = Dataframe.Dataframe(nameFile)
@@ -39,3 +45,4 @@ if __name__ == "__main__":
     print("")
     # con 1000,5,5,3 crea gruppi con 2 items_sensibili
     print(cahd.sd_gruppi)
+    #print(df.dataframe_bandizzato)
