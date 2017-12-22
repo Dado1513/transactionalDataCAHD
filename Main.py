@@ -1,6 +1,7 @@
 import Dataframe
 import AnonymizationCAHD
 import time
+import numpy as np
 import KLDivergence
 
 if __name__ == "__main__":
@@ -40,21 +41,23 @@ if __name__ == "__main__":
         alfa=alpha)
 
     print("Eseguo Anonimizzazione")
-    cahd.CAHD_algorithm()
+    # cahd.CAHD_algorithm()
     end_time = time.time() - start_time
     print("Execution time for privacy %s is %s" %(grado_privacy, end_time))
     print("")
     # con 1000,5,5,3 crea gruppi con 2 items_sensibili
     # dict degli item dove la key sono relativi al dataframe bandizzato
 
-    print(cahd.sd_gruppi)
+    # print(cahd.sd_gruppi)
+
     # bisogna settare il numero di QID da tenere in consideraione
     # r (quindi sono 2^r possibili combinazioni) di solito r = 4
     # item sensibili sono definiti sopra
     # p fissato vedi sopra con p e m variabile
     # calcolare KLDivergence
-    all_item_bandizzato = df.items_final
-    columns_item_sensibili = df.lista_sensibili
+    r = 4 # numero di QID nella query
+    all_item = list(df.items_final.keys())
+    columns_item_sensibili = df.lista_sensibili.values.tolist()
     dataframe_bandizzato = df.dataframe_bandizzato
-    #print(all_item_bandizzato)
-    #print(columns_item_sensibili)
+
+    print(KLDivergence.compute_act_s_in_c(dataframe_bandizzato,[1217],[1],816))

@@ -5,6 +5,24 @@ def compute_act_s_in_c(dataframe_bandizzato, listaQID, valoriQID, itemSensibile)
     :param dataframe_bandizzato:
     :param listaQID:
     :param itemSensibile:
-    :return:
+    :return: number occorrence in C / number occorrence in T
     """
-    return dataframe_bandizzato
+    # numero di occorrenze di s in T (tutto il dataset)
+    # se itemSensibile è solo 1 ok
+    row_sensibile = list()
+
+    if type(itemSensibile) is int:
+        row_sensibile = dataframe_bandizzato[dataframe_bandizzato[itemSensibile] == 1].index.tolist()
+        number_s_t = len(row_sensibile)
+        set_row = set(row_sensibile)
+        # tutti i valori li controllo
+        for i in range(0,len(listaQID)):
+            set_temp = dataframe_bandizzato[dataframe_bandizzato[listaQID[i]]==valoriQID[i]].index.tolist()
+            set_temp = set(set_temp)
+            # essendo un and controllo solo la intersezione
+            set_row = set_row.intersection(set_temp)
+            # numero di occorrenze di s in C (dove le condizioni listaQID sono verificate)
+        number_s_c = len(set_row)
+
+        return number_s_c/number_s_t
+    return None
