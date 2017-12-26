@@ -25,4 +25,14 @@ def compute_act_s_in_c(dataframe_bandizzato, listaQID, valoriQID, itemSensibile)
         number_s_c = len(set_row)
 
         return number_s_c/number_s_t
-    return None
+    elif type(itemSensibile) is list:
+        listOccurrence = list()
+        for s in itemSensibile:
+            value = compute_act_s_in_c(dataframe_bandizzato,listaQID,valoriQID,s)
+            listOccurrence.append(value)
+        return  listOccurrence
+    else:
+        return None
+
+    def compute_est_s_in_c(dataframe_bandizzato, gruppi_sd,lista_gruppi):
+        return None
