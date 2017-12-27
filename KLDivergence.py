@@ -1,3 +1,4 @@
+import itertools
 def compute_act_s_in_c(dataframe_bandizzato, listaQID, valoriQID, itemSensibile):
     """
     funzione che calcola la pdf di un dato sensibile s in una cella C
@@ -36,3 +37,12 @@ def compute_act_s_in_c(dataframe_bandizzato, listaQID, valoriQID, itemSensibile)
 
     def compute_est_s_in_c(dataframe_bandizzato, gruppi_sd,lista_gruppi):
         return None
+
+    def get_all_combination_of_n(n):
+        """
+        compute all possible combination of n bit
+        :param n: numero di QID item
+        :return lst: all possibile combination of n value
+        """
+        lst = [list(i) for i in itertools.product([0, 1], repeat=n)]
+        return lst
