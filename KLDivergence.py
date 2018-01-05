@@ -26,8 +26,10 @@ def compute_act_s_in_c(dataframe_bandizzato, listaQID, valoriQID, itemSensibile)
             set_row = set_row.intersection(set_temp)
             # numero di occorrenze di s in C (dove le condizioni listaQID sono verificate)
         number_s_c = len(set_row)
-
-        return number_s_c/number_s_t
+        if number_s_t > 0:
+            return number_s_c/number_s_t
+        else:
+            return 0
     elif type(itemSensibile) is list:
         listOccurrence = list()
         for s in itemSensibile:
@@ -38,7 +40,7 @@ def compute_act_s_in_c(dataframe_bandizzato, listaQID, valoriQID, itemSensibile)
         return None
 
 
-def compute_est_s_in_c(dataframe_bandizzato, gruppi_sd,lista_gruppi, listaQID, valoriQID, itemSensibile):
+def compute_est_s_in_c(dataframe_bandizzato, gruppi_sd, lista_gruppi, listaQID, valoriQID, itemSensibile):
     """
     a *b/|G|
     dove a è il numero di item sensibibile nel gruppo G
@@ -52,24 +54,33 @@ def compute_est_s_in_c(dataframe_bandizzato, gruppi_sd,lista_gruppi, listaQID, v
     """
     value_tot = 0
     # per ogni gruppo cerco le celle che matchano la mia condizione
-    #print("len",len(lista_gruppi))
+    # print("len",len(lista_gruppi))
+
     for index in range(0, len(lista_gruppi)):
         cardinality_G = len(lista_gruppi[index])
         set_row = set(lista_gruppi[index].index.tolist())
-        for i in range(0,len(listaQID)):
+        for i in range(0, len(listaQID)):
 
             set_temp = lista_gruppi[index][lista_gruppi[index][listaQID[i]] == valoriQID[i]].index.tolist()
             set_temp = set(set_temp)
             # essendo un and controllo solo la intersezione
             set_row = set_row.intersection(set_temp)
             # numero di occorrenze di s in C (dove le condizioni listaQID sono verificate)
+
         # value B per il gruppo index
         value_b = len(set_row)
-        #print("b",value_b)
+        # print("b",value_b)
         # numero item sensibile nel gruppo index
         value_a = gruppi_sd[index][itemSensibile]
-        value_tot = value_tot + (value_a * value_b) / cardinality_G
-        #print("a",value_a)
+        # print("a",value_a)
+        value_tot = value_tot + ((value_a * value_b) / cardinality_G)
+
+    row_sensibile = dataframe_bandizzato[dataframe_bandizzato[itemSensibile] == 1].index.tolist()
+    number_s_t = len(row_sensibile)
+    if number_s_t > 0:
+        value_tot = value_tot / number_s_t
+    else:
+        value_tot = 0
     return value_tot
 
 
