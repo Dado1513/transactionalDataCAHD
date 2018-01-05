@@ -62,5 +62,11 @@ if __name__ == "__main__":
     # [1217] QID
     # [1] value QID
     # 816 --> Item sensibile
-    # print(KLDivergence.compute_act_s_in_c(dataframe_bandizzato,[1217],[1],816))
-    # KLDivergence.compute_est_s_in_c(dataframe_bandizzato,cahd.gruppi_sd,cahd.lista_gruppi)
+    # print(cahd.sd_gruppi)
+    # print(cahd.lista_gruppi)
+    # ToDo da fare per ogni cella C per i QID identificati --> 1217 e 1
+    actsc = KLDivergence.compute_act_s_in_c(dataframe_bandizzato, [1217], [1], 816)
+    #print(actsc)
+    estsc = KLDivergence.compute_est_s_in_c(dataframe_bandizzato,cahd.sd_gruppi,cahd.lista_gruppi, [1217], [1], 816)
+    #print(estsc)
+    print("KL_Divergence = ", actsc * np.log(actsc/estsc))
