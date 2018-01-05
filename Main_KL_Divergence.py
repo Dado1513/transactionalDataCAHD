@@ -24,10 +24,10 @@ if __name__ == "__main__":
         #listaItem = eval(input("Inserire il nome del file contenete gli items: "))
         # testing
 
-        # nameFile = "Dataset Paper/dataBMS1_transiction.csv"
-        # listaItem = "Dataset Paper/lista_items_BMS1.txt"
-        nameFile = "Dataset Paper/dataBMS2_transiction.csv"
-        listaItem = "Dataset Paper/lista_items_BMS2.txt"
+        nameFile = "Dataset Paper/dataBMS1_transiction.csv"
+        listaItem = "Dataset Paper/lista_items_BMS1.txt"
+        # nameFile = "Dataset Paper/dataBMS2_transiction.csv"
+        # listaItem = "Dataset Paper/lista_items_BMS2.txt"
         print("")
         print("Read Dataset")
         df = Dataframe.Dataframe(nameFile)
@@ -73,24 +73,23 @@ if __name__ == "__main__":
             if temp not in QID_select:
                 QID_select.append(temp)
         all_value = KLDivergence.get_all_combination_of_n(r)
-        item_sensibile = 816
+        item_sensibile = random.choice(columns_item_sensibili)
         KL_Divergence = 0
         for valori in all_value:
             actsc = KLDivergence.compute_act_s_in_c(dataframe_bandizzato, QID_select, valori, item_sensibile)
-            print("acts", actsc)
+            #print("acts", actsc)
             estsc = KLDivergence.compute_est_s_in_c(dataframe_bandizzato,cahd.sd_gruppi,cahd.lista_gruppi, QID_select, valori, item_sensibile)
-            print("est", estsc)
+            #print("est", estsc)
             if actsc > 0 and estsc > 0:
                 temp = actsc * np.log(actsc/estsc)
             else:
                 temp = 0
-
             #print("KL_Divergence i = ", temp )
             KL_Divergence = KL_Divergence + temp
         KLs.append(KL_Divergence)
         print(KL_Divergence)
     file = open("valoriKLD.txt","w")
     for index in range(0,len(privacy_list)):
-        file.write(privacy_list[index] + " " + KLs[index]+ "\n" )
+        file.write(str(privacy_list[index]) + " " + str(KLs[index]) + "\n" )
     file.close()
 
