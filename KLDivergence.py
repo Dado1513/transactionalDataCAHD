@@ -37,7 +37,7 @@ def compute_act_s_in_c(dataframe_bandizzato, listaQID, valoriQID, itemSensibile)
             listOccurrence.append(value)
         return listOccurrence
     else:
-        return None
+        return 0
 
 
 def compute_est_s_in_c(dataframe_bandizzato, gruppi_sd, lista_gruppi, listaQID, valoriQID, itemSensibile):
