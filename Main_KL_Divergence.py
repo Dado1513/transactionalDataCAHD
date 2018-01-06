@@ -9,12 +9,13 @@ import operator
 if __name__ == "__main__":
 
     #dim_finale = eval(input("Dimensione del dataset: "))
+    #dim_finale = 1000
     dim_finale = 1000
     #num_sensibile = eval(input("Numero di item sensibili da testare: "))
-    num_sensibile = 10
+    num_sensibile = 20
     #grado_privacy = eval(input("Grado di privacy desiderato: "))
+    #privacy_list = [4, 6, 8, 10, 12, 14, 16, 18, 20]
     privacy_list = [4, 6, 8, 10, 12, 14, 16, 18, 20]
-
     KLs = list()
     for grado_privacy in privacy_list:
         #alpha = eval(input(
@@ -102,6 +103,8 @@ if __name__ == "__main__":
 
     file = open(open_file,"w")
     file.write("num_sensibili " + str(num_sensibile) + "\n")
+    file.write("dimension " + str(dim_finale) + "\n")
+
     for index in range(0, len(privacy_list)):
         file.write(str(privacy_list[index]) + " " + str(KLs[index]) + "\n")
     file.close()
