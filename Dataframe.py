@@ -34,7 +34,9 @@ class Dataframe:
             items = file_read.read().splitlines()
             file_read.close()
             # permuto righe e colonne del df inizale e prendo le prime :dim_finale
-            np.random.seed(seed=13)
+
+            # np.random.seed(seed=13)
+
             random_column = np.random.permutation(original_dataset.shape[1])[:dim_finale]
             random_row = np.random.permutation(original_dataset.shape[0])[:dim_finale]
             # recupero gli item selezionati nel relativo ordine == colonne

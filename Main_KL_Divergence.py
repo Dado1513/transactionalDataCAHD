@@ -14,20 +14,20 @@ if __name__ == "__main__":
     num_sensibile = 10
     #grado_privacy = eval(input("Grado di privacy desiderato: "))
     privacy_list = [4, 6, 8, 10, 12, 14, 16, 18, 20]
+    privacy_list = [4]
+
     KLs = list()
     for grado_privacy in privacy_list:
-
         #alpha = eval(input(
         #    "Inserire valore di alpha (p*alfa check, valore ottimale = 3): "))
         alpha = 3
         #nameFile = eval(input("Insert name/path file: "))
         #listaItem = eval(input("Inserire il nome del file contenete gli items: "))
         # testing
-
-        nameFile = "Dataset Paper/dataBMS1_transiction.csv"
-        listaItem = "Dataset Paper/lista_items_BMS1.txt"
-        # nameFile = "Dataset Paper/dataBMS2_transiction.csv"
-        # listaItem = "Dataset Paper/lista_items_BMS2.txt"
+        #nameFile = "Dataset Paper/dataBMS1_transiction.csv"
+        #listaItem = "Dataset Paper/lista_items_BMS1.txt"
+        nameFile = "Dataset Paper/dataBMS2_transiction.csv"
+        listaItem = "Dataset Paper/lista_items_BMS2.txt"
         print("")
         print("Read Dataset")
         df = Dataframe.Dataframe(nameFile)
@@ -58,6 +58,9 @@ if __name__ == "__main__":
         # item sensibili sono definiti sopra
         # p fissato vedi sopra con p e m variabile
 
+        # per saper i dati sensibili
+        print(cahd.hist)
+        print("")
         r = 4 # numero di QID nella query
         all_item = list(df.items_final.keys())
         columns_item_sensibili = df.lista_sensibili.values.tolist()
@@ -77,9 +80,10 @@ if __name__ == "__main__":
         KL_Divergence = 0
         for valori in all_value:
             actsc = KLDivergence.compute_act_s_in_c(dataframe_bandizzato, QID_select, valori, item_sensibile)
-            #print("acts", actsc)
-            estsc = KLDivergence.compute_est_s_in_c(dataframe_bandizzato,cahd.sd_gruppi,cahd.lista_gruppi, QID_select, valori, item_sensibile)
-            #print("est", estsc)
+            print("acts", actsc)
+            estsc = KLDivergence.compute_est_s_in_c(dataframe_bandizzato,cahd.sd_gruppi,
+                                                    cahd.lista_gruppi, QID_select, valori, item_sensibile)
+            print("est", estsc)
             if actsc > 0 and estsc > 0:
                 temp = actsc * np.log(actsc/estsc)
             else:
@@ -88,7 +92,13 @@ if __name__ == "__main__":
             KL_Divergence = KL_Divergence + temp
         KLs.append(KL_Divergence)
         print(KL_Divergence)
-    file = open("valoriKLD.txt","w")
+    if nameFile == "Dataset Paper/dataBMS2_transiction.csv":
+        open_file = "valoriKLD_BMS2_"+str(num_sensibile)+".txt"
+    else:
+        open_file = "valoriKLD_BMS1_"+str(num_sensibile)+".txt"
+
+    file = open(open_file,"w")
+    file.write("num_sensibili " + str(num_sensibile) + "\n" );
     for index in range(0,len(privacy_list)):
         file.write(str(privacy_list[index]) + " " + str(KLs[index]) + "\n" )
     file.close()
