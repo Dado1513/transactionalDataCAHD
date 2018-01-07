@@ -10,9 +10,9 @@ if __name__ == "__main__":
 
     #dim_finale = eval(input("Dimensione del dataset: "))
     #dim_finale = 1000
-    dim_finale = 1000
+    dim_finale = 2000
     #num_sensibile = eval(input("Numero di item sensibili da testare: "))
-    num_sensibile = 20
+    num_sensibile = 10
     #grado_privacy = eval(input("Grado di privacy desiderato: "))
     #privacy_list = [4, 6, 8, 10, 12, 14, 16, 18, 20]
     privacy_list = [4, 6, 8, 10, 12, 14, 16, 18, 20]
