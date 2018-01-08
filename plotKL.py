@@ -22,3 +22,26 @@ plt.plot(privacy, KL, marker='^', linestyle='--', color='g', label="m=20")
 # plt.title("Reconstruction Error vs p (r = 4) BMS1 m = 20")
 plt.legend(loc='upper left')
 plt.show()
+
+# BMS2 10
+KL = [0.03743134132121, 0.042233486799129, 0.05187387346376,
+      0.06378746307678, 0.074304245359641, 0.07223892898292,
+      0.08256128792189, 0.095436683343, 0.102347450733]
+plt.ylim(ymax=0.4)
+plt.ylim(ymin=0)
+
+plt.plot(privacy, KL, marker='o', linestyle='--', color='b', label="m=10")
+plt.xlabel("p")
+plt.ylabel("KL_Divergence")
+plt.title("Reconstruction Error vs p (r = 4) BMS2 m = 10 & m = 20 ")
+
+#BMS2 m 20
+KL = [0.117387834734, 0.12467879809129, 0.187387346376,
+      0.196327667678, 0.204255961441, 0.223892898292,
+      0.256128792189, 0.288377343932, 0.292388346433]
+plt.plot(privacy, KL, marker='^', linestyle='--', color='g', label="m=20")
+plt.legend(loc='upper left')
+
+plt.show()
+
+
