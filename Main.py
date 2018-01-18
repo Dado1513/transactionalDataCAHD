@@ -46,4 +46,9 @@ if __name__ == "__main__":
     end_time = time.time() - start_time
     print("Execution time for privacy %s is %s" %(grado_privacy, end_time))
     print("")
+    for i in range(0,len(cahd.lista_gruppi)):
+        print("Gruppo %d"%(i))
+        print(cahd.lista_gruppi[i])
+        print(cahd.sd_gruppi[i])
+        print()
 
