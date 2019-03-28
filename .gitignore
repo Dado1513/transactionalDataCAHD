@@ -74,3 +74,5 @@ test\ transactional\ data/*
 test_matlab/*
 
 .dropbox
+
+*.ini
