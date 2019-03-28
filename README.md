@@ -10,6 +10,11 @@ per anonimizzare dati di tipo transazionali trasformando prima i dati in accordo
 - Python 3.x
 - Pandas, Numpy, Scipy
 
+### Installare i moduli 
+```
+    pip3 install -r requirements.txt
+```
+
 ### Esecuzione
 Eseguire il comando
 ```
