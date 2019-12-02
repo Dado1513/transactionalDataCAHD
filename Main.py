@@ -7,17 +7,17 @@ import random
 
 if __name__ == "__main__":
 
-    #dim_finale = eval(input("Dimensione del dataset: "))
+    # dim_finale = eval(input("Dimensione del dataset: "))
     dim_finale = 1000
-    #num_sensibile = eval(input("Numero di item sensibili da testare: "))
+    # num_sensibile = eval(input("Numero di item sensibili da testare: "))
     num_sensibile = 10
-    #grado_privacy = eval(input("Grado di privacy desiderato: "))
+    # grado_privacy = eval(input("Grado di privacy desiderato: "))
     grado_privacy = 10
-    #alpha = eval(input(
+    # alpha = eval(input(
     #    "Inserire valore di alpha (p*alfa check, valore ottimale = 3): "))
     alpha = 3
-    #nameFile = eval(input("Insert name/path file: "))
-    #listaItem = eval(input("Inserire il nome del file contenete gli items: "))
+    # nameFile = eval(input("Insert name/path file: "))
+    # listaItem = eval(input("Inserire il nome del file contenete gli items: "))
     # testing
 
     # nameFile = "Dataset Paper/dataBMS1_transiction.csv"
